@@ -1,0 +1,178 @@
+<UserControl x:Class="SpacePilot.App.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:SpacePilot.App.ViewModels"
+             mc:Ignorable="d" d:DesignHeight="700" d:DesignWidth="1000">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="28,24,28,32">
+
+            <!-- Header Row -->
+            <Grid Margin="0,0,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Storage Dashboard" Style="{StaticResource HeaderTitleText}" />
+                    <TextBlock Text="Real-time object storage metrics, recursive folder sizes, and optimization statistics"
+                               Style="{StaticResource SubheaderText}" Margin="0,4,0,0" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="Scan S3 Bucket" Style="{StaticResource PrimaryButton}" Margin="0,0,10,0"
+                            Command="{Binding NavigateCommand}" CommandParameter="Explorer" />
+                    <Button Content="Refresh Stats" Style="{StaticResource SecondaryButton}"
+                            Command="{Binding RefreshDashboardCommand}" />
+                </StackPanel>
+            </Grid>
+
+            <!-- 4 Modern Stat Cards -->
+            <Grid Margin="0,0,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Card 1: Indexed Objects -->
+                <Border Grid.Column="0" Style="{StaticResource ModernCard}" Margin="0,0,12,0">
+                    <StackPanel>
+                        <TextBlock Text="INDEXED OBJECTS" Style="{StaticResource SubheaderText}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding TotalObjectsCount, StringFormat={}{0:N0}}" FontSize="28" FontWeight="Bold" Margin="0,8,0,4" />
+                        <TextBlock Text="{Binding ActiveBucket, StringFormat=Bucket: {0}}" Foreground="{StaticResource CyanAccentBrush}" FontSize="12" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 2: Total Storage -->
+                <Border Grid.Column="1" Style="{StaticResource ModernCard}" Margin="0,0,12,0">
+                    <StackPanel>
+                        <TextBlock Text="TOTAL INDEXED STORAGE" Style="{StaticResource SubheaderText}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding TotalStorageFormatted}" FontSize="28" FontWeight="Bold" Margin="0,8,0,4" />
+                        <TextBlock Text="Aggregated subtree volume" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 3: Space Saved -->
+                <Border Grid.Column="2" Style="{StaticResource ModernCard}" Margin="0,0,12,0">
+                    <StackPanel>
+                        <TextBlock Text="VERIFIED SPACE RECLAIMED" Style="{StaticResource SubheaderText}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding SpaceSavedFormatted}" FontSize="28" FontWeight="Bold" Foreground="{StaticResource GreenBrush}" Margin="0,8,0,4" />
+                        <TextBlock Text="Completed replacement jobs" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Card 4: Potential Savings -->
+                <Border Grid.Column="3" Style="{StaticResource ModernCard}">
+                    <StackPanel>
+                        <TextBlock Text="POTENTIAL DRY RUN SAVINGS" Style="{StaticResource SubheaderText}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding PotentialSavingsFormatted}" FontSize="28" FontWeight="Bold" Foreground="{StaticResource AccentLightBrush}" Margin="0,8,0,4" />
+                        <TextBlock Text="Ready for execution" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Quick Action Shortcuts -->
+            <Border Style="{StaticResource HeroCard}" Margin="0,0,0,24" Padding="20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <TextBlock Text="SpacePilot Optimization Studio" FontSize="18" FontWeight="SemiBold" />
+                        <TextBlock Text="Explore massive S3 buckets, detect storage waste, and compress images &amp; PDFs safely."
+                                   Style="{StaticResource SubheaderText}" Margin="0,4,0,0" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="Bulk Media Compressor" Style="{StaticResource PrimaryButton}" Margin="0,0,10,0"
+                                Command="{Binding NavigateCommand}" CommandParameter="Compressor" />
+                        <Button Content="Local Folders" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0"
+                                Command="{Binding NavigateCommand}" CommandParameter="LocalFiles" />
+                        <Button Content="Cleanup &amp; Duplicates" Style="{StaticResource SecondaryButton}"
+                                Command="{Binding NavigateCommand}" CommandParameter="Cleanup" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Two-Column Section: Largest Folders & Largest Files -->
+            <Grid Margin="0,0,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Column: Top Largest Folders -->
+                <Border Grid.Column="0" Style="{StaticResource ModernCard}" Margin="0,0,12,0">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,12">
+                            <TextBlock Text="Largest Folders" Style="{StaticResource SectionTitleText}" />
+                            <TextBlock Text="{Binding ActiveBucket, StringFormat=Bucket: {0}}" HorizontalAlignment="Right" Style="{StaticResource SubheaderText}" />
+                        </Grid>
+
+                        <DataGrid ItemsSource="{Binding LargestFolders}" Height="220"
+                                  HeadersVisibility="Column" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Prefix" Binding="{Binding Name}" Width="*" />
+                                <DataGridTextColumn Header="Recursive Size" Binding="{Binding RecursiveSizeBytes, Converter={StaticResource ByteSizeConverter}}" Width="110" />
+                                <DataGridTextColumn Header="Objects" Binding="{Binding RecursiveObjectCount}" Width="80" />
+                                <DataGridTextColumn Header="% Bucket" Binding="{Binding PercentageOfBucket, Converter={StaticResource SavingsPercentageConverter}}" Width="80" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Right Column: Top Largest Files -->
+                <Border Grid.Column="1" Style="{StaticResource ModernCard}">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,12">
+                            <TextBlock Text="Largest Files" Style="{StaticResource SectionTitleText}" />
+                            <TextBlock Text="By File Size" HorizontalAlignment="Right" Style="{StaticResource SubheaderText}" />
+                        </Grid>
+
+                        <DataGrid ItemsSource="{Binding LargestFiles}" Height="220"
+                                  HeadersVisibility="Column" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="File Name" Binding="{Binding FileName}" Width="*" />
+                                <DataGridTextColumn Header="Ext" Binding="{Binding Extension}" Width="60" />
+                                <DataGridTextColumn Header="Size" Binding="{Binding SizeBytes, Converter={StaticResource ByteSizeConverter}}" Width="100" />
+                                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="80" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Bottom: Recent Jobs -->
+            <Border Style="{StaticResource ModernCard}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock Text="Recent Compression &amp; Optimization Jobs" Style="{StaticResource SectionTitleText}" />
+                        <Button Content="View All Jobs" Style="{StaticResource SubtleButton}" HorizontalAlignment="Right"
+                                Command="{Binding NavigateCommand}" CommandParameter="Jobs" />
+                    </Grid>
+
+                    <DataGrid ItemsSource="{Binding RecentJobs}" Height="160"
+                              HeadersVisibility="Column" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Job Title" Binding="{Binding Title}" Width="*" />
+                            <DataGridTextColumn Header="Type" Binding="{Binding SourceType}" Width="80" />
+                            <DataGridTextColumn Header="Mode" Binding="{Binding UploadMode}" Width="100" />
+                            <DataGridTextColumn Header="Processed" Binding="{Binding ProcessedFiles}" Width="80" />
+                            <DataGridTextColumn Header="Saved Bytes" Binding="{Binding SavedBytes, Converter={StaticResource ByteSizeConverter}}" Width="110" />
+                            <DataGridTextColumn Header="Savings %" Binding="{Binding SavingsPercentage, Converter={StaticResource SavingsPercentageConverter}}" Width="80" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

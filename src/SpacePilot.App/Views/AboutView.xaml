@@ -1,0 +1,74 @@
+<UserControl x:Class="SpacePilot.App.Views.AboutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:SpacePilot.App.ViewModels"
+             mc:Ignorable="d" d:DesignHeight="700" d:DesignWidth="1000">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="32" MaxWidth="800" HorizontalAlignment="Left">
+            <!-- App Logo & Tagline -->
+            <Border Style="{StaticResource HeroCard}" Padding="24" Margin="0,0,0,24">
+                <StackPanel>
+                    <TextBlock Text="SpacePilot" FontSize="32" FontWeight="Bold" Foreground="{StaticResource AccentLightBrush}" />
+                    <TextBlock Text="S3 Storage Explorer &amp; Smart Compressor" FontSize="18" FontWeight="SemiBold" Margin="0,4,0,8" />
+                    <TextBlock Text="Explore. Optimize. Reclaim space." FontSize="14" Foreground="{StaticResource CyanAccentBrush}" FontWeight="Medium" />
+                </StackPanel>
+            </Border>
+
+            <!-- Build & Runtime Information -->
+            <Border Style="{StaticResource ModernCard}" Margin="0,0,0,24" Padding="18">
+                <StackPanel>
+                    <TextBlock Text="System &amp; Application Runtime" Style="{StaticResource SectionTitleText}" Margin="0,0,0,12" />
+
+                    <Grid Margin="0,4">
+                        <TextBlock Text="Application Version" Style="{StaticResource SubheaderText}" />
+                        <TextBlock Text="{Binding Version}" HorizontalAlignment="Right" FontWeight="SemiBold" />
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <TextBlock Text=".NET Runtime" Style="{StaticResource SubheaderText}" />
+                        <TextBlock Text="{Binding Runtime}" HorizontalAlignment="Right" FontWeight="SemiBold" />
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <TextBlock Text="Process Architecture" Style="{StaticResource SubheaderText}" />
+                        <TextBlock Text="{Binding Architecture}" HorizontalAlignment="Right" FontWeight="SemiBold" />
+                    </Grid>
+
+                    <Grid Margin="0,4">
+                        <TextBlock Text="Operating System" Style="{StaticResource SubheaderText}" />
+                        <TextBlock Text="{Binding OperatingSystem}" HorizontalAlignment="Right" FontWeight="SemiBold" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Security & Privacy Guarantee -->
+            <Border Style="{StaticResource ModernCard}" Margin="0,0,0,24" Padding="18">
+                <StackPanel>
+                    <TextBlock Text="Security &amp; Privacy Architecture" Style="{StaticResource SectionTitleText}" Margin="0,0,0,8" />
+                    <TextBlock Text="• S3 Secret Keys are encrypted using Windows DPAPI (Data Protection API) tied to your Windows user account.&#x0a;• Credentials and authentication headers are never written to disk in plain text or emitted to logs.&#x0a;• Previews and dry runs execute locally without uploading or modifying source cloud data.&#x0a;• Safe delete commands require explicit confirmation."
+                               Style="{StaticResource SubheaderText}" LineHeight="20" />
+                </StackPanel>
+            </Border>
+
+            <!-- Third-Party Licenses -->
+            <Border Style="{StaticResource ModernCard}" Padding="18">
+                <StackPanel>
+                    <TextBlock Text="Third-Party Open-Source Attributions" Style="{StaticResource SectionTitleText}" Margin="0,0,0,12" />
+
+                    <DataGrid ItemsSource="{Binding Licenses}" Height="200"
+                              AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                              HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Package / Library" Binding="{Binding LibraryName}" Width="160" FontWeight="SemiBold" />
+                            <DataGridTextColumn Header="License" Binding="{Binding License}" Width="120" />
+                            <DataGridTextColumn Header="Copyright" Binding="{Binding Copyright}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

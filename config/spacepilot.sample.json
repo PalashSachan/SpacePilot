@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Comment": "SpacePilot Non-Secret Sample Configuration. Credentials (SecretAccessKey) are NEVER stored in plaintext JSON. They are encrypted using Windows DPAPI.",
+  "StorageProfiles": [
+    {
+      "Id": "default-do-spaces",
+      "Name": "DigitalOcean Spaces (BLR1)",
+      "ServiceUrl": "https://blr1.digitaloceanspaces.com",
+      "Region": "blr1",
+      "AccessKey": "DO00EXAMPLEACCESSKEY",
+      "BucketName": "docs456",
+      "IsDefault": true,
+      "TimeoutSeconds": 30,
+      "MaxRetries": 3,
+      "ForcePathStyle": false
+    },
+    {
+      "Id": "aws-s3-backup",
+      "Name": "AWS S3 Production Backup",
+      "ServiceUrl": "https://s3.us-east-1.amazonaws.com",
+      "Region": "us-east-1",
+      "AccessKey": "AKIAIOSFODNN7EXAMPLE",
+      "BucketName": "production-archive",
+      "IsDefault": false,
+      "TimeoutSeconds": 45,
+      "MaxRetries": 4,
+      "ForcePathStyle": false
+    }
+  ],
+  "CompressionProfile": {
+    "Name": "Default Profile",
+    "QualityMode": "LosslessFirst",
+    "MinImageSizeThresholdBytes": 204800,
+    "MinPdfSizeThresholdBytes": 307200,
+    "MinSavingsPercentageThreshold": 15.0,
+    "JpegQuality": 80,
+    "WebpQuality": 80,
+    "OptimizePng": true,
+    "Resize": {
+      "Mode": "None",
+      "MaxWidth": 1920,
+      "MaxHeight": 1080,
+      "Percentage": 100,
+      "LongestEdge": 1920,
+      "PreserveAspectRatio": true
+    },
+    "MetadataPolicy": "Preserve",
+    "AutoOrientExif": true,
+    "ConvertFormat": "None"
+  },
+  "GeneralSettings": {
+    "Theme": "Dark",
+    "MaxDegreeOfParallelism": 4,
+    "DefaultDownloadDirectory": "",
+    "StagingPrefix": "__spacepilot_compressed/",
+    "CreateBackupBeforeReplace": true,
+    "EnableDetailedAuditLogging": true
+  },
+  "CleanupPolicy": {
+    "UseTrashPrefix": true,
+    "TrashPrefix": "__spacepilot_trash/",
+    "RequireBucketConfirmationForDeletes": true,
+    "WarnOnUnscannedFolders": true
+  }
+}

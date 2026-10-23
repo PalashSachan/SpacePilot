@@ -1,0 +1,190 @@
+<Window x:Class="SpacePilot.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SpacePilot.App.ViewModels"
+        xmlns:views="clr-namespace:SpacePilot.App.Views"
+        mc:Ignorable="d"
+        Title="SpacePilot — S3 Storage Explorer &amp; Smart Compressor"
+        Height="800" Width="1240" MinHeight="650" MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource WindowBgBrush}">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
+            <views:DashboardView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ExplorerViewModel}">
+            <views:ExplorerView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CompressorViewModel}">
+            <views:CompressorView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:LocalFilesViewModel}">
+            <views:LocalFilesView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CleanupViewModel}">
+            <views:CleanupView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:JobsViewModel}">
+            <views:JobsView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <views:SettingsView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AboutViewModel}">
+            <views:AboutView />
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" /> <!-- Menu Bar -->
+            <RowDefinition Height="Auto" /> <!-- Top Header / Status Pill Bar -->
+            <RowDefinition Height="*" />    <!-- Main Workspace Split -->
+            <RowDefinition Height="Auto" /> <!-- Bottom Status Bar -->
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Top Menu Bar with Working Commands -->
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="Connect to Storage..." Command="{Binding MenuConnectStorageCommand}" InputGestureText="Ctrl+N" />
+                <MenuItem Header="Select Local Folder..." Command="{Binding MenuSelectLocalFolderCommand}" InputGestureText="Ctrl+O" />
+                <Separator />
+                <MenuItem Header="Export Diagnostic Report..." Command="{Binding MenuExportReportCommand}" />
+                <MenuItem Header="Open Logs Folder" Command="{Binding MenuOpenLogsFolderCommand}" />
+                <Separator />
+                <MenuItem Header="E_xit" Command="{Binding MenuExitCommand}" InputGestureText="Alt+F4" />
+            </MenuItem>
+
+            <MenuItem Header="_Storage">
+                <MenuItem Header="Storage Explorer" Command="{Binding NavigateCommand}" CommandParameter="Explorer" />
+                <MenuItem Header="Scan Current Bucket" Command="{Binding MenuScanBucketCommand}" InputGestureText="F5" />
+                <MenuItem Header="Refresh Listing" Command="{Binding MenuRefreshListingCommand}" />
+                <Separator />
+                <MenuItem Header="Find Largest Files" Command="{Binding MenuFindLargestFilesCommand}" />
+                <MenuItem Header="Find Largest Folders" Command="{Binding NavigateCommand}" CommandParameter="Cleanup" />
+                <MenuItem Header="Duplicate Candidate Finder" Command="{Binding NavigateCommand}" CommandParameter="Cleanup" />
+            </MenuItem>
+
+            <MenuItem Header="_Compress">
+                <MenuItem Header="Bulk Media Compressor" Command="{Binding MenuBulkCompressCommand}" />
+                <MenuItem Header="Test Single File..." Command="{Binding NavigateCommand}" CommandParameter="Compressor" />
+                <MenuItem Header="Local Folder Processing" Command="{Binding NavigateCommand}" CommandParameter="LocalFiles" />
+            </MenuItem>
+
+            <MenuItem Header="_Tools">
+                <MenuItem Header="Storage Usage Analyzer" Command="{Binding MenuStorageAnalyzerCommand}" />
+                <MenuItem Header="S3 Connection Tester" Command="{Binding MenuTestConnectionCommand}" />
+                <MenuItem Header="Activity Audit Log" Command="{Binding NavigateCommand}" CommandParameter="Jobs" />
+            </MenuItem>
+
+            <MenuItem Header="_View">
+                <MenuItem Header="Dashboard" Command="{Binding NavigateCommand}" CommandParameter="Dashboard" />
+                <MenuItem Header="Explorer" Command="{Binding NavigateCommand}" CommandParameter="Explorer" />
+                <MenuItem Header="Compressor Studio" Command="{Binding NavigateCommand}" CommandParameter="Compressor" />
+                <MenuItem Header="Active Jobs" Command="{Binding NavigateCommand}" CommandParameter="Jobs" />
+            </MenuItem>
+
+            <MenuItem Header="_Help">
+                <MenuItem Header="About SpacePilot" Command="{Binding MenuHelpAboutCommand}" />
+                <MenuItem Header="Troubleshooting &amp; Logs" Command="{Binding MenuOpenLogsFolderCommand}" />
+                <MenuItem Header="Third-Party Licenses" Command="{Binding MenuHelpAboutCommand}" />
+            </MenuItem>
+        </Menu>
+
+        <!-- Row 1: Top Status Bar & Active Connection Pill -->
+        <Border Grid.Row="1" Background="{StaticResource SurfaceBgBrush}" BorderBrush="{StaticResource SubtleBorderBrush}" BorderThickness="0,0,0,1" Padding="18,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- App Branding -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="SpacePilot" FontSize="16" FontWeight="Bold" Foreground="{StaticResource AccentLightBrush}" Margin="0,0,10,0" />
+                    <TextBlock Text="— S3 Storage Explorer &amp; Smart Compressor" Style="{StaticResource SubheaderText}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                </StackPanel>
+
+                <!-- Active Connection Pill -->
+                <Border Grid.Column="1" Background="{StaticResource CardHoverBgBrush}" CornerRadius="12" Padding="12,4" VerticalAlignment="Center"
+                        BorderBrush="{StaticResource SubtleBorderBrush}" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Ellipse Width="8" Height="8" Fill="{StaticResource GreenBrush}" Margin="0,0,8,0" />
+                        <TextBlock Text="{Binding ActiveConnectionPill}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Row 2: Main Workspace Split (Sidebar + Content View) -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="230" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Navigation Sidebar -->
+            <Border Grid.Column="0" Background="{StaticResource SidebarBgBrush}" BorderBrush="{StaticResource SubtleBorderBrush}" BorderThickness="0,0,1,0" Padding="12,16">
+                <DockPanel LastChildFill="True">
+                    <!-- Bottom Settings & About links -->
+                    <StackPanel DockPanel.Dock="Bottom">
+                        <Separator Background="{StaticResource SubtleBorderBrush}" Margin="4,12" />
+                        <RadioButton Content="Settings" Style="{StaticResource NavRadioButton}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Settings, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Settings" />
+                        <RadioButton Content="About" Style="{StaticResource NavRadioButton}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=About, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="About" />
+                    </StackPanel>
+
+                    <!-- Primary Navigation Links -->
+                    <StackPanel>
+                        <RadioButton Content="Dashboard" Style="{StaticResource NavRadioButton}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Dashboard, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Dashboard" />
+                        <RadioButton Content="Storage Explorer" Style="{StaticResource NavRadioButton}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Explorer, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Explorer" />
+                        <RadioButton Content="Media Compressor" Style="{StaticResource NavRadioButton}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Compressor, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Compressor" />
+                        <RadioButton Content="Local Folders" Style="{StaticResource NavRadioButton}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=LocalFiles, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="LocalFiles" />
+                        <RadioButton Content="Storage Cleanup" Style="{StaticResource NavRadioButton}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Cleanup, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Cleanup" />
+                        <RadioButton Content="Jobs &amp; Activity" Style="{StaticResource NavRadioButton}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Jobs, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Jobs" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- Central Content Host -->
+            <ContentControl Grid.Column="1" Content="{Binding CurrentView}" />
+        </Grid>
+
+        <!-- Row 3: Bottom Status Bar -->
+        <Border Grid.Row="3" Background="{StaticResource SurfaceBgBrush}" BorderBrush="{StaticResource SubtleBorderBrush}" BorderThickness="0,1,0,0" Padding="16,6">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Ready" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" />
+                    <TextBlock Text="• DPAPI Security Active" Foreground="{StaticResource GreenBrush}" FontSize="11" Margin="12,0,0,0" />
+                    <TextBlock Text="• SQLite WAL Indexing Enabled" Foreground="{StaticResource CyanAccentBrush}" FontSize="11" Margin="12,0,0,0" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" Text="SpacePilot Enterprise v1.0" Foreground="{StaticResource TextMutedBrush}" FontSize="11" />
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

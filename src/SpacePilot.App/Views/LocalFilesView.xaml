@@ -1,0 +1,115 @@
+<UserControl x:Class="SpacePilot.App.Views.LocalFilesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:enums="clr-namespace:SpacePilot.Core.Enums;assembly=SpacePilot.Core"
+             xmlns:vm="clr-namespace:SpacePilot.App.ViewModels"
+             mc:Ignorable="d" d:DesignHeight="700" d:DesignWidth="1000">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Local Folder Batch Compressor" Style="{StaticResource HeaderTitleText}" />
+                <TextBlock Text="Recursively scans directories and saves optimized outputs in sibling 'compressed/' subfolders, preserving your originals."
+                           Style="{StaticResource SubheaderText}" Margin="0,4,0,0" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="Scan Folder" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0"
+                        Command="{Binding ScanFolderCommand}" />
+                <Button Content="Start Compression" Style="{StaticResource PrimaryButton}"
+                        Command="{Binding StartCompressionCommand}" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Configuration Bar -->
+        <Border Grid.Row="1" Style="{StaticResource ModernCard}" Margin="0,0,0,16" Padding="16">
+            <StackPanel>
+                <!-- Folder Path Selector -->
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Source Folder:" VerticalAlignment="Center" Margin="0,0,12,0" Style="{StaticResource SubheaderText}" />
+                    <TextBox Grid.Column="1" Text="{Binding SelectedFolderPath, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Grid.Column="2" Content="Browse..." Style="{StaticResource SecondaryButton}" Margin="10,0,0,0"
+                            Click="OnBrowseSourceClick" />
+                </Grid>
+
+                <!-- Options -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" Content="Include Subfolders Recursively" IsChecked="{Binding IncludeSubfolders}" />
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <TextBlock Text="Collision Policy:" VerticalAlignment="Center" Margin="0,0,8,0" Style="{StaticResource SubheaderText}" />
+                        <ComboBox SelectedItem="{Binding CollisionPolicy}" Width="160">
+                            <enums:CollisionPolicy>Skip</enums:CollisionPolicy>
+                            <enums:CollisionPolicy>Overwrite</enums:CollisionPolicy>
+                            <enums:CollisionPolicy>RenameWithSuffix</enums:CollisionPolicy>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="4" Orientation="Horizontal">
+                        <CheckBox Content="Custom Destination" IsChecked="{Binding UseCustomDestination}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBox Text="{Binding CustomDestinationPath}" Width="240"
+                                 IsEnabled="{Binding UseCustomDestination}" ToolTip="Leave empty to use default sibling 'compressed/' subfolder." />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Discovered Files DataGrid -->
+        <Border Grid.Row="2" Style="{StaticResource ModernCard}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,10">
+                    <TextBlock Text="Discovered Media Files" Style="{StaticResource SectionTitleText}" />
+                    <TextBlock Text="{Binding DiscoveredCount, StringFormat={}{0} files ready}" HorizontalAlignment="Right" Style="{StaticResource SubheaderText}" />
+                </Grid>
+
+                <ListBox Grid.Row="1" ItemsSource="{Binding DiscoveredFiles}" Background="{StaticResource SurfaceBgBrush}"
+                         BorderThickness="0" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" Margin="4,3" FontFamily="Consolas, Segoe UI" FontSize="12" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="3" Style="{StaticResource ModernCard}" Margin="0,16,0,0" Padding="12,8">
+            <TextBlock Text="{Binding StatusMessage}" Style="{StaticResource SubheaderText}" />
+        </Border>
+    </Grid>
+</UserControl>

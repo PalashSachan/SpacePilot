@@ -1,0 +1,66 @@
+## Build results and artifacts
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Tt]emp/
+TestResults/
+[Tt]est[Rr]esult*/
+publish/
+dist/
+artifacts/
+
+## Debugging and symbol files
+*.pdb
+*.trx
+*.coverage
+*.coveragexml
+*.opendb
+*.VC.db
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.VisualState.xml
+
+## Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+## JetBrains Rider / ReSharper
+.idea/
+*.DotSettings.user
+
+## SQLite Databases and temporary WAL files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+spacepilot.db*
+
+## Runtime logs and diagnostic exports
+*.log
+spacepilot_diagnostic_*.json
+
+## OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+## Secrets, certificates and private keys
+*.pfx
+*.p12
+*.pem
+*.key
+appsettings.*.local.json
+appsettings.Local.json

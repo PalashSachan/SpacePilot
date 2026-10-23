@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<Obfuscator>
+  <Var name="InPath" value=".\publish" />
+  <Var name="OutPath" value=".\publish\obfuscated" />
+  <Var name="KeepPublicApi" value="true" />
+  <Var name="HidePrivateApi" value="true" />
+  <Var name="RenameProperties" value="true" />
+  <Var name="RenameEvents" value="true" />
+  <Var name="RenameFields" value="true" />
+  <Var name="UseUnicodeNames" value="false" />
+  <Var name="HideStrings" value="false" />
+  <Var name="OptimizeMethods" value="true" />
+
+  <!-- Target application assemblies for symbol and control-flow obfuscation -->
+  <Module file="$(InPath)\SpacePilot.Application.dll" />
+  <Module file="$(InPath)\SpacePilot.Infrastructure.dll" />
+  <Module file="$(InPath)\SpacePilot.Core.dll" />
+</Obfuscator>
