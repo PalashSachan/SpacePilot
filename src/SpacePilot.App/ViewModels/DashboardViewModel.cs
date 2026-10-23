@@ -12,7 +12,6 @@ public partial class DashboardViewModel : ObservableObject
     private readonly IStorageIndexer _indexer;
     private readonly ISettingsService _settingsService;
     private readonly IJobManager _jobManager;
-    private readonly Action<string> _navigateAction;
 
     [ObservableProperty]
     private string _activeBucket = "docs456";
@@ -45,16 +44,18 @@ public partial class DashboardViewModel : ObservableObject
     public ObservableCollection<IndexedObject> LargestFiles { get; } = new();
     public ObservableCollection<CompressionJob> RecentJobs { get; } = new();
 
+    public Action<string>? NavigateAction { get; set; }
+
     public DashboardViewModel(
         IStorageIndexer indexer,
         ISettingsService settingsService,
         IJobManager jobManager,
-        Action<string> navigateAction)
+        Action<string>? navigateAction = null)
     {
         _indexer = indexer;
         _settingsService = settingsService;
         _jobManager = jobManager;
-        _navigateAction = navigateAction;
+        NavigateAction = navigateAction;
     }
 
     [RelayCommand]
@@ -111,5 +112,5 @@ public partial class DashboardViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public void Navigate(string destination) => _navigateAction(destination);
+    public void Navigate(string destination) => NavigateAction?.Invoke(destination);
 }

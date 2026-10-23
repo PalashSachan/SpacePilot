@@ -52,6 +52,7 @@ public partial class MainViewModel : ObservableObject
         _settingsService = settingsService;
         _diagnosticService = diagnosticService;
 
+        DashboardVM.NavigateAction = Navigate;
         _currentView = DashboardVM;
     }
 

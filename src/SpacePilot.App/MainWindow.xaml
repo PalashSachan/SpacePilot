@@ -133,32 +133,32 @@
                     <StackPanel DockPanel.Dock="Bottom">
                         <Separator Background="{StaticResource SubtleBorderBrush}" Margin="4,12" />
                         <RadioButton Content="Settings" Style="{StaticResource NavRadioButton}"
-                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Settings, Mode=OneWay}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToBoolConverter}, ConverterParameter=Settings, Mode=OneWay}"
                                      Command="{Binding NavigateCommand}" CommandParameter="Settings" />
                         <RadioButton Content="About" Style="{StaticResource NavRadioButton}"
-                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=About, Mode=OneWay}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToBoolConverter}, ConverterParameter=About, Mode=OneWay}"
                                      Command="{Binding NavigateCommand}" CommandParameter="About" />
                     </StackPanel>
 
                     <!-- Primary Navigation Links -->
                     <StackPanel>
                         <RadioButton Content="Dashboard" Style="{StaticResource NavRadioButton}"
-                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Dashboard, Mode=OneWay}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToBoolConverter}, ConverterParameter=Dashboard, Mode=OneWay}"
                                      Command="{Binding NavigateCommand}" CommandParameter="Dashboard" />
                         <RadioButton Content="Storage Explorer" Style="{StaticResource NavRadioButton}"
-                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Explorer, Mode=OneWay}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToBoolConverter}, ConverterParameter=Explorer, Mode=OneWay}"
                                      Command="{Binding NavigateCommand}" CommandParameter="Explorer" />
                         <RadioButton Content="Media Compressor" Style="{StaticResource NavRadioButton}"
-                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Compressor, Mode=OneWay}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToBoolConverter}, ConverterParameter=Compressor, Mode=OneWay}"
                                      Command="{Binding NavigateCommand}" CommandParameter="Compressor" />
                         <RadioButton Content="Local Folders" Style="{StaticResource NavRadioButton}"
-                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=LocalFiles, Mode=OneWay}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToBoolConverter}, ConverterParameter=LocalFiles, Mode=OneWay}"
                                      Command="{Binding NavigateCommand}" CommandParameter="LocalFiles" />
                         <RadioButton Content="Storage Cleanup" Style="{StaticResource NavRadioButton}"
-                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Cleanup, Mode=OneWay}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToBoolConverter}, ConverterParameter=Cleanup, Mode=OneWay}"
                                      Command="{Binding NavigateCommand}" CommandParameter="Cleanup" />
                         <RadioButton Content="Jobs &amp; Activity" Style="{StaticResource NavRadioButton}"
-                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=Jobs, Mode=OneWay}"
+                                     IsChecked="{Binding CurrentViewName, Converter={StaticResource EqualsToBoolConverter}, ConverterParameter=Jobs, Mode=OneWay}"
                                      Command="{Binding NavigateCommand}" CommandParameter="Jobs" />
                     </StackPanel>
                 </DockPanel>

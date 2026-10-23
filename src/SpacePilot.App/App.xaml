@@ -17,6 +17,7 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" xmlns:converters="clr-namespace:SpacePilot.App.Converters" />
             <converters:StatusToColorConverter x:Key="StatusToColorConverter" xmlns:converters="clr-namespace:SpacePilot.App.Converters" />
             <converters:EqualsToVisibilityConverter x:Key="EqualsToVisibilityConverter" xmlns:converters="clr-namespace:SpacePilot.App.Converters" />
+            <converters:EqualsToBoolConverter x:Key="EqualsToBoolConverter" xmlns:converters="clr-namespace:SpacePilot.App.Converters" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
